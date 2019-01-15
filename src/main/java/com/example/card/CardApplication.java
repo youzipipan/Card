@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public static class CardApplication {
+public class CardApplication {
 
-    public static static void main(String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(CardApplication.class, args);
     }
 
