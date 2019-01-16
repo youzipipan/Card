@@ -85,6 +85,7 @@ public class WxController {
             if(i!=0){
                 return ResponseUtils.ok();
             }else {
+                log.info(ResponseUtils.fail(1,"服务器异常，请联系管理员！"));
                 return ResponseUtils.fail(1,"服务器异常，请联系管理员！");
             }
         }else {
