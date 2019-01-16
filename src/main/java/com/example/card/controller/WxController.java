@@ -7,6 +7,7 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,10 +65,30 @@ public class WxController {
 
         String openId = jsonObject.getString("openid");
         Student student = wxService.findByOpenId(openId);
+        String sessionId = session.getId();
+        session.setAttribute("openId",openId);
         if(student!=null){
-           return ResponseUtils.ok();
+           return ResponseUtils.ok("成功",sessionId);
         }else {
-            return ResponseUtils.fail(1,"请绑定一卡通信息！！！");
+            return ResponseUtils.fail(1,"请绑定一卡通信息！！！",sessionId);
+        }
+    }
+
+    @RequestMapping("/enter")
+    @ResponseBody
+    public Object login(String cardNumber,String passWord,HttpSession httpSession){
+
+        Student student = wxService.findByCardNumberAndPassWord(cardNumber,passWord);
+        if(student!=null){
+            String openId = (String) httpSession.getAttribute("openId");
+            int i = wxService.updateByOpenId(cardNumber,passWord,openId);
+            if(i!=0){
+                return ResponseUtils.ok();
+            }else {
+                return ResponseUtils.fail(1,"服务器异常，请联系管理员！");
+            }
+        }else {
+            return ResponseUtils.fail(1,"账号或密码有误！");
         }
     }
 

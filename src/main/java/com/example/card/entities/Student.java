@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="student")
 @AllArgsConstructor
 @NoArgsConstructor
-public static class Student {
+public class Student {
 
     @Id
     private String studentId;
@@ -41,6 +41,8 @@ public static class Student {
     private String iDNumber;//身份证号
     @Column
     private String cardNumber;//一卡通卡号
+    @Column
+    private String passWord;//密码
     @Column
     private String teacher;//导员
 

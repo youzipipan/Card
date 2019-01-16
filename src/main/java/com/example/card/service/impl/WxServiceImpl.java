@@ -22,4 +22,25 @@ public class WxServiceImpl implements WxService {
 
         return student;
     }
+
+    @Transactional
+    @Override
+    public Student findByCardNumberAndPassWord(String cardNumber, String password) {
+
+        Student student = studentRepository.findByCardNumberAndPassWord(cardNumber,password);
+
+        return student;
+    }
+
+    @Transactional
+    @Override
+    public int updateByOpenId(String cardNumber, String passWord, String openId) {
+
+        int i = studentRepository.updateByOpenId(cardNumber,passWord,openId);
+        if(i!=0){
+            return i;
+        }else {
+            return 0;
+        }
+    }
 }
