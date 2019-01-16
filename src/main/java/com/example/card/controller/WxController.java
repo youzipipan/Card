@@ -37,15 +37,15 @@ public class WxController {
 
     private static Logger log = Logger.getLogger(WxController.class);
 
-    final String APPID="wx855c0d74b2478fd4";
-    final String SECRET="76f29d6450172f389859ee00cc5bb999";
+    final String APPID = "wx855c0d74b2478fd4";
+    final String SECRET = "76f29d6450172f389859ee00cc5bb999";
 
     @Resource
     private WxService wxService;
 
     @RequestMapping("/login")
     @ResponseBody
-    public Object getCode(HttpServletRequest request, HttpSession session){
+    public Object getCode(HttpServletRequest request, HttpSession session) {
        /* System.out.println("success");
         String openid = "999999";
         Map<String,Object> data = new HashMap<String,Object>();
@@ -53,12 +53,12 @@ public class WxController {
         JSONObject json = JSONObject.fromObject(data);*/
         String code = request.getParameter("js_code");
 
-        String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";	//请求地址 https://api.weixin.qq.com/sns/jscode2session
-        Map<String,String> requestUrlParam = new HashMap<String,String>();
-        requestUrlParam.put("appid", APPID);	//开发者设置中的appId
-        requestUrlParam.put("secret", SECRET);	//开发者设置中的appSecret
-        requestUrlParam.put("js_code", code.trim());	//小程序调用wx.login返回的code
-        requestUrlParam.put("grant_type", "authorization_code");	//默认参数
+        String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";    //请求地址 https://api.weixin.qq.com/sns/jscode2session
+        Map<String, String> requestUrlParam = new HashMap<String, String>();
+        requestUrlParam.put("appid", APPID);    //开发者设置中的appId
+        requestUrlParam.put("secret", SECRET);    //开发者设置中的appSecret
+        requestUrlParam.put("js_code", code.trim());    //小程序调用wx.login返回的code
+        requestUrlParam.put("grant_type", "authorization_code");    //默认参数
 
         //发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识
         JSONObject jsonObject = JSONObject.fromObject(sendPost(requestUrl, requestUrlParam));
@@ -66,39 +66,42 @@ public class WxController {
         String openId = jsonObject.getString("openid");
         Student student = wxService.findByOpenId(openId);
         String sessionId = session.getId();
-        session.setAttribute("openId",openId);
-        if(student!=null){
-           return ResponseUtils.ok("成功",sessionId);
-        }else {
-            return ResponseUtils.fail(1,"请绑定一卡通信息！！！",sessionId);
+        session.setAttribute("openId", openId);
+        if (student != null) {
+            log.info(ResponseUtils.ok("成功", sessionId));
+            return ResponseUtils.ok("成功", sessionId);
+        } else {
+            log.info(ResponseUtils.fail(1, "请绑定一卡通信息！！！", sessionId));
+            return ResponseUtils.fail(1, "请绑定一卡通信息！！！", sessionId);
         }
     }
 
     @RequestMapping("/enter")
     @ResponseBody
-    public Object login(String cardNumber,String passWord,HttpSession httpSession){
+    public Object login(String cardNumber, String passWord, HttpSession httpSession) {
 
-        Student student = wxService.findByCardNumberAndPassWord(cardNumber,passWord);
-        if(student!=null){
+        Student student = wxService.findByCardNumberAndPassWord(cardNumber, passWord);
+        if (student != null) {
             String openId = (String) httpSession.getAttribute("openId");
-            int i = wxService.updateByOpenId(cardNumber,passWord,openId);
-            if(i!=0){
+            int i = wxService.updateByOpenId(cardNumber, passWord, openId);
+            if (i != 0) {
+                log.info(ResponseUtils.ok());
                 return ResponseUtils.ok();
-            }else {
-                log.info(ResponseUtils.fail(1,"服务器异常，请联系管理员！"));
-                return ResponseUtils.fail(1,"服务器异常，请联系管理员！");
+            } else {
+                log.info(ResponseUtils.fail(1, "服务器异常，请联系管理员！"));
+                return ResponseUtils.fail(1, "服务器异常，请联系管理员！");
             }
-        }else {
-            return ResponseUtils.fail(1,"账号或密码有误！");
+        } else {
+            log.info(ResponseUtils.fail(1, "账号或密码有误！"));
+            return ResponseUtils.fail(1, "账号或密码有误！");
         }
     }
 
 
-
-
     /**
      * 向指定 URL 发送POST方法的请求
-     * @param url 发送请求的 URL
+     *
+     * @param url      发送请求的 URL
      * @param paramMap 请求参数
      * @return 所代表远程资源的响应结果
      */
@@ -110,7 +113,7 @@ public class WxController {
         String param = "";
         Iterator<String> it = paramMap.keySet().iterator();
 
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             String key = it.next();
             param += key + "=" + paramMap.get(key) + "&";
         }
@@ -143,16 +146,15 @@ public class WxController {
             log.error(e.getMessage(), e);
         }
         //使用finally块来关闭输出流、输入流
-        finally{
-            try{
-                if(out!=null){
+        finally {
+            try {
+                if (out != null) {
                     out.close();
                 }
-                if(in!=null){
+                if (in != null) {
                     in.close();
                 }
-            }
-            catch(IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
@@ -163,13 +165,13 @@ public class WxController {
     /**
      * 解密用户敏感数据获取用户信息
      *
-     * @author zhy
-     * @param sessionKey 数据进行加密签名的密钥
+     * @param sessionKey    数据进行加密签名的密钥
      * @param encryptedData 包括敏感数据在内的完整用户信息的加密数据
-     * @param iv 加密算法的初始向量
+     * @param iv            加密算法的初始向量
      * @return
+     * @author zhy
      */
-    public JSONObject getUserInfo(String encryptedData,String sessionKey,String iv){
+    public JSONObject getUserInfo(String encryptedData, String sessionKey, String iv) {
         // 被加密的数据
         byte[] dataByte = Base64.decode(encryptedData);
         // 加密秘钥
@@ -188,7 +190,7 @@ public class WxController {
             }
             // 初始化
             Security.addProvider(new BouncyCastleProvider());
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding","BC");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding", "BC");
             SecretKeySpec spec = new SecretKeySpec(keyByte, "AES");
             AlgorithmParameters parameters = AlgorithmParameters.getInstance("AES");
             parameters.init(new IvParameterSpec(ivByte));

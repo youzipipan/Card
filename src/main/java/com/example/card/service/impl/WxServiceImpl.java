@@ -36,7 +36,7 @@ public class WxServiceImpl implements WxService {
     @Override
     public int updateByOpenId(String cardNumber, String passWord, String openId) {
 
-        int i = studentRepository.updateByOpenId(cardNumber,passWord,openId);
+        int i = studentRepository.updateByCardNumberAndPassWord(cardNumber,passWord,openId);
         if(i!=0){
             return i;
         }else {
