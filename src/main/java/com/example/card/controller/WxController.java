@@ -80,7 +80,7 @@ public class WxController {
     @ResponseBody
     public Object login(String cardNumber, String passWord, HttpSession httpSession) {
 
-        if (cardNumber == "admin" && passWord == "admin") {
+        if ("admin".equals(cardNumber) && "admin".equals(passWord)) {
             return ResponseUtils.ok();
         } else {
             Student student = wxService.findByCardNumberAndPassWord(cardNumber, passWord);
