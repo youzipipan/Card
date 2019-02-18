@@ -8,4 +8,5 @@ public interface WxService {
     Student findByCardNumberAndPassWord(String cardNumber, String password);
 
     int updateByOpenId(String cardNumber, String passWord, String openId);
+
 }

@@ -101,6 +101,19 @@ public class WxController {
         }
     }
 
+    @RequestMapping("/getUserInfo")
+    @ResponseBody
+    public Object getUserInfo(HttpSession httpSession) {
+
+        String openId = (String) httpSession.getAttribute("openId");
+        Student student = wxService.findByOpenId(openId);
+        if (student != null) {
+            return ResponseUtils.ok("成功", student);
+        } else {
+            return ResponseUtils.fail();
+        }
+    }
+
 
     /**
      * 向指定 URL 发送POST方法的请求

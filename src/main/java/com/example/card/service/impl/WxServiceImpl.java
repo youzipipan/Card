@@ -43,4 +43,7 @@ public class WxServiceImpl implements WxService {
             return 0;
         }
     }
+
+
+
 }
