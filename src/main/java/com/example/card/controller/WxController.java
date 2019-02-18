@@ -110,7 +110,7 @@ public class WxController {
         if (student != null) {
             return ResponseUtils.ok("成功", student);
         } else {
-            return ResponseUtils.fail();
+            return ResponseUtils.fail(1,"获取用户信息失败");
         }
     }
 
