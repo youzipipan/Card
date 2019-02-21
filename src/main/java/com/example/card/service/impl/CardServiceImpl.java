@@ -18,8 +18,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public Card findByStudentId(String studentId) {
 
-        Card card = cardRepository.findByStudengId(studentId);
-
+        Card card = cardRepository.findByStudentId(studentId);
         return card;
     }
 }
