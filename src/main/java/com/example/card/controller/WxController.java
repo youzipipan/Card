@@ -130,9 +130,9 @@ public class WxController {
         if(StringUtils.isNotEmpty(studentId)){
             Student student = wxService.findByOpenId(openId);
             if (student != null) {
-                List<Book> bookList = bookService.findByAllStedentId(student.getStudentId());
-                List<Book> bookListY = bookService.findByStedentIdAndFlag(student.getStudentId(),"1");
-                List<Book> bookListN = bookService.findByStedentIdAndFlag(student.getStudentId(),"0");
+                List<Book> bookList = bookService.findAllByStudentId(student.getStudentId());
+                List<Book> bookListY = bookService.findByStudentIdAndFlag(student.getStudentId(),"1");
+                List<Book> bookListN = bookService.findByStudentIdAndFlag(student.getStudentId(),"0");
                 if ((bookList != null && bookList.size() > 0)||(bookListY != null && bookListY.size() > 0)||(bookListN != null && bookListN.size() > 0)) {
                     ajsonArray = JSONArray.fromObject(bookList);
                     yjsonArray = JSONArray.fromObject(bookListY);
@@ -148,9 +148,9 @@ public class WxController {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
             }
         }else{
-            List<Book> bookList = bookService.findByAllStedentId(studentId);
-            List<Book> bookListY = bookService.findByStedentIdAndFlag(studentId,"1");
-            List<Book> bookListN = bookService.findByStedentIdAndFlag(studentId,"0");
+            List<Book> bookList = bookService.findAllByStudentId(studentId);
+            List<Book> bookListY = bookService.findByStudentIdAndFlag(studentId,"1");
+            List<Book> bookListN = bookService.findByStudentIdAndFlag(studentId,"0");
             if ((bookList != null && bookList.size() > 0)||(bookListY != null && bookListY.size() > 0)||(bookListN != null && bookListN.size() > 0)) {
                 ajsonArray = JSONArray.fromObject(bookList);
                 yjsonArray = JSONArray.fromObject(bookListY);

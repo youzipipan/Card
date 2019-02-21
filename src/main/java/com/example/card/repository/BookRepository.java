@@ -8,8 +8,7 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book,String> {
 
-    @Query("select b from Book b where b.studentId")
-    List<Book> findByAllStedentId(String studentId);
+    List<Book> findAllByStudentId(String studentId);
 
     List<Book> findByStudentIdAndFlag(String studentId, String s);
 }

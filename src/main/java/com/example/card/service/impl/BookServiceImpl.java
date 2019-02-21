@@ -17,17 +17,17 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public List<Book> findByAllStedentId(String studentId) {
+    public List<Book> findAllByStudentId(String studentId) {
 
-        List<Book> bookList = bookRepository.findByAllStedentId(studentId);
+        List<Book> bookList = bookRepository.findAllByStudentId(studentId);
         return bookList;
     }
 
     @Transactional
     @Override
-    public List<Book> findByStedentIdAndFlag(String studentId ,String flag) {
+    public List<Book> findByStudentIdAndFlag(String studentId ,String flag) {
 
-        List<Book> bookList = bookRepository.findByStedentIdAndFlag(studentId,flag);
+        List<Book> bookList = bookRepository.findByStudentIdAndFlag(studentId,flag);
         return bookList;
     }
 
