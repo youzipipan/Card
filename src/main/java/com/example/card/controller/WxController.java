@@ -1,13 +1,16 @@
 package com.example.card.controller;
 
+
+import com.example.card.entities.Book;
 import com.example.card.entities.Student;
+import com.example.card.service.BookService;
 import com.example.card.service.WxService;
 import com.example.card.utils.ResponseUtils;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,10 +29,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.*;
 import java.security.spec.InvalidParameterSpecException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/wx")
 @Controller
@@ -40,8 +40,11 @@ public class WxController {
     final String APPID = "wx855c0d74b2478fd4";
     final String SECRET = "76f29d6450172f389859ee00cc5bb999";
 
+    private String openId;
     @Resource
     private WxService wxService;
+    @Resource
+    private BookService bookService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -63,7 +66,7 @@ public class WxController {
         //发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识
         JSONObject jsonObject = JSONObject.fromObject(sendPost(requestUrl, requestUrlParam));
 
-        String openId = jsonObject.getString("openid");
+        this.openId = jsonObject.getString("openid");
         Student student = wxService.findByOpenId(openId);
         String sessionId = session.getId();
         session.setAttribute("openId", openId);
@@ -85,7 +88,7 @@ public class WxController {
         } else {
             Student student = wxService.findByCardNumberAndPassWord(cardNumber, passWord);
             if (student != null) {
-                String openId = (String) httpSession.getAttribute("openId");
+//                this.openId = (String) httpSession.getAttribute("openId");
                 int i = wxService.updateByOpenId(cardNumber, passWord, openId);
                 if (i != 0) {
                     log.info(ResponseUtils.ok());
@@ -105,12 +108,90 @@ public class WxController {
     @ResponseBody
     public Object getUserInfo(HttpSession httpSession) {
 
-        String openId = (String) httpSession.getAttribute("openId");
+//        this.openId = (String) httpSession.getAttribute("openId");
         Student student = wxService.findByOpenId(openId);
         if (student != null) {
             return ResponseUtils.ok("成功", student);
         } else {
-            return ResponseUtils.fail(1,"获取用户信息失败");
+            return ResponseUtils.fail(1, "获取用户信息失败");
+        }
+    }
+
+    @RequestMapping("/findAllByStedentId")
+    @ResponseBody
+    public Object findAllByStedentId(String studentId) {
+
+        if(StringUtils.isNotEmpty(studentId)){
+            Student student = wxService.findByOpenId(openId);
+            if (student != null) {
+                List<Book> bookList = bookService.findByAllStedentId(student.getStudentId());
+                if (bookList != null && bookList.size() > 0) {
+                    return ResponseUtils.ok("成功", bookList);
+                } else {
+                    return ResponseUtils.fail(1, "查询该用户图书信息失败！");
+                }
+            } else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
+            }
+        }else{
+            List<Book> bookList = bookService.findByAllStedentId(studentId);
+            if (bookList != null && bookList.size() > 0) {
+                return ResponseUtils.ok("成功", bookList);
+            } else {
+                return ResponseUtils.fail(1, "查询该用户图书信息失败！");
+            }
+        }
+    }
+
+    @RequestMapping("/findByStedentIdY")
+    @ResponseBody
+    public Object findByStedentIdY(String studentId) {
+
+        if(StringUtils.isNotEmpty(studentId)){
+            Student student = wxService.findByOpenId(openId);
+            if (student != null) {
+                List<Book> bookList = bookService.findByStedentIdAndFlag(student.getStudentId(),"1");
+                if (bookList != null && bookList.size() > 0) {
+                    return ResponseUtils.ok("成功", bookList);
+                } else {
+                    return ResponseUtils.fail(1, "查询该用户图书信息失败！");
+                }
+            } else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
+            }
+        }else{
+            List<Book> bookList = bookService.findByStedentIdAndFlag(studentId,"1");
+            if (bookList != null && bookList.size() > 0) {
+                return ResponseUtils.ok("成功", bookList);
+            } else {
+                return ResponseUtils.fail(1, "查询该用户图书信息失败！");
+            }
+        }
+    }
+
+    @RequestMapping("/findByStedentIdN")
+    @ResponseBody
+    public Object findByStedentIdN(String studentId) {
+
+        if(StringUtils.isNotEmpty(studentId)){
+            Student student = wxService.findByOpenId(openId);
+            if (student != null) {
+                List<Book> bookList = bookService.findByStedentIdAndFlag(student.getStudentId(),"0");
+                if (bookList != null && bookList.size() > 0) {
+                    return ResponseUtils.ok("成功", bookList);
+                } else {
+                    return ResponseUtils.fail(1, "查询该用户图书信息失败！");
+                }
+            } else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
+            }
+        }else{
+            List<Book> bookList = bookService.findByStedentIdAndFlag(studentId,"0");
+            if (bookList != null && bookList.size() > 0) {
+                return ResponseUtils.ok("成功", bookList);
+            } else {
+                return ResponseUtils.fail(1, "查询该用户图书信息失败！");
+            }
         }
     }
 
