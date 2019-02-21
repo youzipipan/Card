@@ -213,6 +213,26 @@ public class WxController {
         }
     }
 
+    @RequestMapping("/getRoom")
+    @ResponseBody
+    public Object getRoom(String studentId){
+
+        if(StringUtils.isEmpty(studentId)){
+            Student student = wxService.findByOpenId(openId);
+            if(student!=null){
+                return ResponseUtils.ok("成功", student);
+            }else{
+                return ResponseUtils.fail(1, "查询宿舍信息失败！");
+            }
+        }else{
+            Student student = wxService.findByStudentId(studentId);
+            if(student!=null){
+                return ResponseUtils.ok("成功", student);
+            }else{
+                return ResponseUtils.fail(1, "查询宿舍信息失败！");
+            }
+        }
+    }
 
 
     /**

@@ -45,6 +45,9 @@ public class Student {
     private String passWord;//密码
     @Column
     private String teacher;//导员
-
+    @Column
+    private String room;//宿舍
+    @Column
+    private String returnTime;//回校时间
 
 }
