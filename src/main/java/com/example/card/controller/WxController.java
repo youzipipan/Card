@@ -2,8 +2,10 @@ package com.example.card.controller;
 
 
 import com.example.card.entities.Book;
+import com.example.card.entities.Card;
 import com.example.card.entities.Student;
 import com.example.card.service.BookService;
+import com.example.card.service.CardService;
 import com.example.card.service.WxService;
 import com.example.card.utils.ResponseUtils;
 import net.sf.json.JSON;
@@ -47,6 +49,8 @@ public class WxController {
     private WxService wxService;
     @Resource
     private BookService bookService;
+    @Resource
+    private CardService cardService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -122,24 +126,24 @@ public class WxController {
     @RequestMapping("/findAllByStedentId")
     @ResponseBody
     public Object findAllByStedentId(String studentId) {
-        JSONObject json  = new JSONObject();
+        JSONObject json = new JSONObject();
         JSONArray ajsonArray = new JSONArray();
         JSONArray yjsonArray = new JSONArray();
         JSONArray njsonArray = new JSONArray();
 
-        if(StringUtils.isNotEmpty(studentId)){
+        if (StringUtils.isEmpty(studentId)) {
             Student student = wxService.findByOpenId(openId);
             if (student != null) {
                 List<Book> bookList = bookService.findAllByStudentId(student.getStudentId());
-                List<Book> bookListY = bookService.findByStudentIdAndFlag(student.getStudentId(),"1");
-                List<Book> bookListN = bookService.findByStudentIdAndFlag(student.getStudentId(),"0");
-                if ((bookList != null && bookList.size() > 0)||(bookListY != null && bookListY.size() > 0)||(bookListN != null && bookListN.size() > 0)) {
+                List<Book> bookListY = bookService.findByStudentIdAndFlag(student.getStudentId(), "1");
+                List<Book> bookListN = bookService.findByStudentIdAndFlag(student.getStudentId(), "0");
+                if ((bookList != null && bookList.size() > 0) || (bookListY != null && bookListY.size() > 0) || (bookListN != null && bookListN.size() > 0)) {
                     ajsonArray = JSONArray.fromObject(bookList);
                     yjsonArray = JSONArray.fromObject(bookListY);
                     njsonArray = JSONArray.fromObject(bookListN);
-                    json.put("allBookList",ajsonArray);
-                    json.put("nBookList",njsonArray);
-                    json.put("yBookList",yjsonArray);
+                    json.put("allBookList", ajsonArray);
+                    json.put("nBookList", njsonArray);
+                    json.put("yBookList", yjsonArray);
                     return ResponseUtils.ok("成功", json);
                 } else {
                     return ResponseUtils.fail(1, "查询该用户图书信息失败！");
@@ -147,22 +151,40 @@ public class WxController {
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
             }
-        }else{
+        } else {
             List<Book> bookList = bookService.findAllByStudentId(studentId);
-            List<Book> bookListY = bookService.findByStudentIdAndFlag(studentId,"1");
-            List<Book> bookListN = bookService.findByStudentIdAndFlag(studentId,"0");
-            if ((bookList != null && bookList.size() > 0)||(bookListY != null && bookListY.size() > 0)||(bookListN != null && bookListN.size() > 0)) {
+            List<Book> bookListY = bookService.findByStudentIdAndFlag(studentId, "1");
+            List<Book> bookListN = bookService.findByStudentIdAndFlag(studentId, "0");
+            if ((bookList != null && bookList.size() > 0) || (bookListY != null && bookListY.size() > 0) || (bookListN != null && bookListN.size() > 0)) {
                 ajsonArray = JSONArray.fromObject(bookList);
                 yjsonArray = JSONArray.fromObject(bookListY);
                 njsonArray = JSONArray.fromObject(bookListN);
-                json.put("allBookList",ajsonArray);
-                json.put("nBookList",njsonArray);
-                json.put("yBookList",yjsonArray);
+                json.put("allBookList", ajsonArray);
+                json.put("nBookList", njsonArray);
+                json.put("yBookList", yjsonArray);
                 return ResponseUtils.ok("成功", json);
             } else {
                 return ResponseUtils.fail(1, "查询该用户图书信息失败！");
             }
         }
+    }
+
+    @RequestMapping("/getCard")
+    @ResponseBody
+    public Object getCard(String studentId) {
+
+        if (StringUtils.isEmpty(studentId)) {
+            Student student = wxService.findByOpenId(openId);
+            if (student != null) {
+//                Card card = cardService.findByStudentId(student.getStudentId());
+            } else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
+            }
+        } else {
+
+        }
+
+        return null;
     }
 
 
