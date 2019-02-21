@@ -4,6 +4,8 @@ package com.example.card.controller;
 import com.example.card.entities.Book;
 import com.example.card.entities.Card;
 import com.example.card.entities.Student;
+import com.example.card.model.CardModel;
+import com.example.card.repository.StudentRepository;
 import com.example.card.service.BookService;
 import com.example.card.service.CardService;
 import com.example.card.service.WxService;
@@ -173,18 +175,42 @@ public class WxController {
     @ResponseBody
     public Object getCard(String studentId) {
 
+        CardModel cardModel = new CardModel();
         if (StringUtils.isEmpty(studentId)) {
             Student student = wxService.findByOpenId(openId);
             if (student != null) {
-//                Card card = cardService.findByStudentId(student.getStudentId());
+                cardModel.setStudentName(student.getName());
+                cardModel.setPhone(student.getPhone());
+                Card card = cardService.findByStudentId(student.getStudentId());
+                if (card != null) {
+                    cardModel.setCardNumber(card.getCardNumber());
+                    cardModel.setBalance(card.getBalance());
+                    cardModel.setIntegral(card.getIntegral());
+                    return ResponseUtils.ok("成功", cardModel);
+                } else {
+                    return ResponseUtils.fail(1, "查询该一卡通信息失败！");
+                }
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
             }
         } else {
-
+            Student student = wxService.findByStudentId(studentId);
+            if (student != null) {
+                cardModel.setStudentName(student.getName());
+                cardModel.setPhone(student.getPhone());
+                Card card = cardService.findByStudentId(studentId);
+                if (card != null) {
+                    cardModel.setCardNumber(card.getCardNumber());
+                    cardModel.setBalance(card.getBalance());
+                    cardModel.setIntegral(card.getIntegral());
+                    return ResponseUtils.ok("成功", cardModel);
+                } else {
+                    return ResponseUtils.fail(1, "查询该一卡通信息失败！");
+                }
+            } else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
+            }
         }
-
-        return null;
     }
 
 

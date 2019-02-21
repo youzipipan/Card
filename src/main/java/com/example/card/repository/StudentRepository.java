@@ -14,4 +14,6 @@ public interface StudentRepository extends JpaRepository<Student,String> {
     @Modifying
     @Query("update Student s set s.openId=?3 where s.cardNumber=?1 and s.passWord=?2")
     int updateByCardNumberAndPassWord(String cardNumber, String passWord, String openId);
+
+    Student findByStudentId(String studentId);
 }

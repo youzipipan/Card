@@ -1,5 +1,6 @@
 package com.example.card.service;
 
+import com.example.card.entities.Card;
 import com.example.card.entities.Student;
 
 public interface WxService {
@@ -9,4 +10,5 @@ public interface WxService {
 
     int updateByOpenId(String cardNumber, String passWord, String openId);
 
+    Student findByStudentId(String studentId);
 }

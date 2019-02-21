@@ -44,6 +44,13 @@ public class WxServiceImpl implements WxService {
         }
     }
 
+    @Transactional
+    @Override
+    public Student findByStudentId(String studentId) {
 
-    
+        Student student = studentRepository.findByStudentId(studentId);
+        return student;
+    }
+
+
 }
