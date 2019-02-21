@@ -11,5 +11,5 @@ public interface BookRepository extends JpaRepository<Book,String> {
     @Query("select b from Book b where b.studentId")
     List<Book> findByAllStedentId(String studentId);
 
-    List<Book> findByStedentIdAndFlag(String studentId, String s);
+    List<Book> findByStudentIdAndFlag(String studentId, String s);
 }
