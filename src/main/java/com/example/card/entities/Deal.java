@@ -21,7 +21,7 @@ public class Deal {
     @Column
     private String studentId;// 学生ID
     @Column
-    private String prderNo;//交易号
+    private String orderNo;//交易号
     @Column
     private String price;//交易金额
     @Column
