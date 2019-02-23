@@ -1,17 +1,11 @@
 package com.example.card.controller;
 
 
-import com.example.card.entities.Book;
-import com.example.card.entities.Card;
-import com.example.card.entities.Room;
-import com.example.card.entities.Student;
+import com.example.card.entities.*;
 import com.example.card.model.CardModel;
 import com.example.card.model.RoomModel;
 import com.example.card.repository.StudentRepository;
-import com.example.card.service.BookService;
-import com.example.card.service.CardService;
-import com.example.card.service.RoomService;
-import com.example.card.service.WxService;
+import com.example.card.service.*;
 import com.example.card.utils.ResponseUtils;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -58,6 +52,8 @@ public class WxController {
     private CardService cardService;
     @Resource
     private RoomService roomService;
+    @Resource
+    private DealService dealService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -316,7 +312,38 @@ public class WxController {
                 } else {
                     return ResponseUtils.fail(1, "查询宿舍信息失败！");
                 }
-            }else {
+            } else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
+            }
+        }
+    }
+
+    @RequestMapping("/getDeal")
+    @ResponseBody
+    public Object getDeal(String studentId) {
+
+        if (StringUtils.isEmpty(studentId)) {
+            Student student = wxService.findByOpenId(openId);
+            if (student != null) {
+                List<Deal> deal = dealService.findByStudentId(student.getStudentId());
+                if (deal != null && deal.size() > 0) {
+                    return ResponseUtils.ok("成功", deal);
+                } else {
+                    return ResponseUtils.fail(1, "查询该一卡通信息失败！");
+                }
+            } else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
+            }
+        } else {
+            Student student = wxService.findByStudentId(studentId);
+            if (student != null) {
+                List<Deal> deal = dealService.findByStudentId(student.getStudentId());
+                if (deal != null && deal.size() > 0) {
+                    return ResponseUtils.ok("成功", deal);
+                } else {
+                    return ResponseUtils.fail(1, "查询该一卡通信息失败！");
+                }
+            } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
             }
         }
