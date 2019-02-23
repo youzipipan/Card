@@ -3,11 +3,14 @@ package com.example.card.controller;
 
 import com.example.card.entities.Book;
 import com.example.card.entities.Card;
+import com.example.card.entities.Room;
 import com.example.card.entities.Student;
 import com.example.card.model.CardModel;
+import com.example.card.model.RoomModel;
 import com.example.card.repository.StudentRepository;
 import com.example.card.service.BookService;
 import com.example.card.service.CardService;
+import com.example.card.service.RoomService;
 import com.example.card.service.WxService;
 import com.example.card.utils.ResponseUtils;
 import net.sf.json.JSON;
@@ -53,6 +56,8 @@ public class WxController {
     private BookService bookService;
     @Resource
     private CardService cardService;
+    @Resource
+    private RoomService roomService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -215,25 +220,107 @@ public class WxController {
 
     @RequestMapping("/getRoom")
     @ResponseBody
-    public Object getRoom(String studentId){
+    public Object getRoom(String studentId) {
 
-        if(StringUtils.isEmpty(studentId)){
+        JSONObject json = new JSONObject();
+        JSONArray jsonArrayN = new JSONArray();
+        JSONArray jsonArrayW = new JSONArray();
+        JSONArray jsonArray = new JSONArray();
+        RoomModel roomModel = new RoomModel();
+        List<RoomModel> roomModelN = new ArrayList<>();
+        List<RoomModel> roomModelW = new ArrayList<>();
+        List<RoomModel> roomModels = new ArrayList<>();
+        if (StringUtils.isEmpty(studentId)) {
             Student student = wxService.findByOpenId(openId);
-            if(student!=null){
-                return ResponseUtils.ok("成功", student);
-            }else{
-                return ResponseUtils.fail(1, "查询宿舍信息失败！");
+            if (student != null) {
+
+                List<Room> roomN = roomService.findByStudentId(student.getStudentId(), "0");
+                List<Room> roomW = roomService.findByStudentId(student.getStudentId(), "1");
+                List<Room> room = roomService.findByStudentId(student.getStudentId(), "2");
+                if ((roomN != null && roomN.size() > 0) || (roomW != null && roomW.size() > 0) || (room != null && room.size() > 0)) {
+                    roomN.forEach(e -> {
+                        roomModel.setReturnTime(e.getReturnTime());
+                        roomModel.setRoom(e.getRoom());
+                        roomModel.setFlag(e.getFlag());
+                        roomModel.setName(student.getName());
+                        roomModel.setPhone(student.getPhone());
+                        roomModelN.add(roomModel);
+                    });
+                    jsonArrayN = JSONArray.fromObject(roomModelN);
+                    roomW.forEach(e -> {
+                        roomModel.setReturnTime(e.getReturnTime());
+                        roomModel.setRoom(e.getRoom());
+                        roomModel.setFlag(e.getFlag());
+                        roomModel.setName(student.getName());
+                        roomModel.setPhone(student.getPhone());
+                        roomModelW.add(roomModel);
+                    });
+                    jsonArrayW = JSONArray.fromObject(roomModelW);
+                    room.forEach(e -> {
+                        roomModel.setReturnTime(e.getReturnTime());
+                        roomModel.setRoom(e.getRoom());
+                        roomModel.setFlag(e.getFlag());
+                        roomModel.setName(student.getName());
+                        roomModel.setPhone(student.getPhone());
+                        roomModels.add(roomModel);
+                    });
+                    jsonArray = JSONArray.fromObject(roomModels);
+                    json.put("N", jsonArrayN);
+                    json.put("W", jsonArrayW);
+                    json.put("Y", jsonArray);
+                    return ResponseUtils.ok("成功", json);
+                } else {
+                    return ResponseUtils.fail(1, "查询宿舍信息失败！");
+                }
+            } else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
             }
-        }else{
+        } else {
             Student student = wxService.findByStudentId(studentId);
-            if(student!=null){
-                return ResponseUtils.ok("成功", student);
-            }else{
-                return ResponseUtils.fail(1, "查询宿舍信息失败！");
+            if (student != null) {
+                List<Room> roomN = roomService.findByStudentId(student.getStudentId(), "0");
+                List<Room> roomW = roomService.findByStudentId(student.getStudentId(), "1");
+                List<Room> room = roomService.findByStudentId(student.getStudentId(), "2");
+                if ((roomN != null && roomN.size() > 0) || (roomW != null && roomW.size() > 0) || (room != null && room.size() > 0)) {
+                    roomN.forEach(e -> {
+                        roomModel.setReturnTime(e.getReturnTime());
+                        roomModel.setRoom(e.getRoom());
+                        roomModel.setFlag(e.getFlag());
+                        roomModel.setName(student.getName());
+                        roomModel.setPhone(student.getPhone());
+                        roomModelN.add(roomModel);
+                    });
+                    jsonArrayN = JSONArray.fromObject(roomModelN);
+                    roomW.forEach(e -> {
+                        roomModel.setReturnTime(e.getReturnTime());
+                        roomModel.setRoom(e.getRoom());
+                        roomModel.setFlag(e.getFlag());
+                        roomModel.setName(student.getName());
+                        roomModel.setPhone(student.getPhone());
+                        roomModelW.add(roomModel);
+                    });
+                    jsonArrayW = JSONArray.fromObject(roomModelW);
+                    room.forEach(e -> {
+                        roomModel.setReturnTime(e.getReturnTime());
+                        roomModel.setRoom(e.getRoom());
+                        roomModel.setFlag(e.getFlag());
+                        roomModel.setName(student.getName());
+                        roomModel.setPhone(student.getPhone());
+                        roomModels.add(roomModel);
+                    });
+                    jsonArray = JSONArray.fromObject(roomModels);
+                    json.put("N", jsonArrayN);
+                    json.put("W", jsonArrayW);
+                    json.put("Y", jsonArray);
+                    return ResponseUtils.ok("成功", json);
+                } else {
+                    return ResponseUtils.fail(1, "查询宿舍信息失败！");
+                }
+            }else {
+                return ResponseUtils.fail(1, "查询用户信息失败！");
             }
         }
     }
-
 
     /**
      * 向指定 URL 发送POST方法的请求
@@ -359,7 +446,6 @@ public class WxController {
         return null;
     }
 }
-
 
 
 
