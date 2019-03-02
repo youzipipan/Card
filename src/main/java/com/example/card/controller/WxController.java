@@ -4,6 +4,7 @@ package com.example.card.controller;
 import com.example.card.entities.*;
 import com.example.card.model.CardModel;
 import com.example.card.model.RoomModel;
+import com.example.card.model.SaveModel;
 import com.example.card.repository.StudentRepository;
 import com.example.card.service.*;
 import com.example.card.utils.ResponseUtils;
@@ -347,6 +348,14 @@ public class WxController {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
             }
         }
+    }
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public Object save(SaveModel saveModel){
+
+        String cardNumber = wxService.save(saveModel);
+        return cardNumber;
     }
 
     /**

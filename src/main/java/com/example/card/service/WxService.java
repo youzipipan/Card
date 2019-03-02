@@ -2,6 +2,7 @@ package com.example.card.service;
 
 import com.example.card.entities.Card;
 import com.example.card.entities.Student;
+import com.example.card.model.SaveModel;
 
 public interface WxService {
     Student findByOpenId(String openId);
@@ -11,4 +12,6 @@ public interface WxService {
     int updateByOpenId(String cardNumber, String passWord, String openId);
 
     Student findByStudentId(String studentId);
+
+    String save(SaveModel saveModel);
 }
