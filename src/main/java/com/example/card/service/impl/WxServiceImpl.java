@@ -30,7 +30,6 @@ public class WxServiceImpl implements WxService {
     public Student findByCardNumberAndPassWord(String cardNumber, String password) {
 
         Student student = studentRepository.findByCardNumberAndPassWord(cardNumber,password);
-
         return student;
     }
 
@@ -70,9 +69,10 @@ public class WxServiceImpl implements WxService {
         student.setIDNumber(saveModel.getIDNumber());
         student.setPassWord(saveModel.getPassWord());
         student.setSex(saveModel.getSex());
-        student.setCardNumber(getTel());
+        String cardNumber = getTel();
+        student.setCardNumber(cardNumber);
         studentRepository.save(student);
-        return getTel();
+        return cardNumber;
     }
 
     private static String[] telFirst="134,135,136,137,138,139,150,151,152,157,158,159,130,131,132,155,156,133,153".split(",");
