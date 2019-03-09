@@ -87,5 +87,4 @@ public class WxServiceImpl implements WxService {
         return (int)(Math.random()*(end-start+1)+start);
     }
 
-
 }

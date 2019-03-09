@@ -150,7 +150,7 @@ public class WxController {
                     json.put("yBookList", yjsonArray);
                     return ResponseUtils.ok("成功", json);
                 } else {
-                    return ResponseUtils.fail(1, "查询该用户图书信息失败！");
+                    return ResponseUtils.fail(1, "无图书馆信息！");
                 }
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
@@ -168,7 +168,7 @@ public class WxController {
                 json.put("yBookList", yjsonArray);
                 return ResponseUtils.ok("成功", json);
             } else {
-                return ResponseUtils.fail(1, "查询该用户图书信息失败！");
+                return ResponseUtils.fail(1, "无图书馆信息！");
             }
         }
     }
@@ -190,7 +190,7 @@ public class WxController {
                     cardModel.setIntegral(card.getIntegral());
                     return ResponseUtils.ok("成功", cardModel);
                 } else {
-                    return ResponseUtils.fail(1, "查询该一卡通信息失败！");
+                    return ResponseUtils.fail(1, "无一卡通信息！");
                 }
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
@@ -207,7 +207,7 @@ public class WxController {
                     cardModel.setIntegral(card.getIntegral());
                     return ResponseUtils.ok("成功", cardModel);
                 } else {
-                    return ResponseUtils.fail(1, "查询该一卡通信息失败！");
+                    return ResponseUtils.fail(1, "无一卡通信息！");
                 }
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
@@ -267,7 +267,7 @@ public class WxController {
                     json.put("Y", jsonArray);
                     return ResponseUtils.ok("成功", json);
                 } else {
-                    return ResponseUtils.fail(1, "查询宿舍信息失败！");
+                    return ResponseUtils.fail(1, "无宿舍信息！");
                 }
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
@@ -311,7 +311,7 @@ public class WxController {
                     json.put("Y", jsonArray);
                     return ResponseUtils.ok("成功", json);
                 } else {
-                    return ResponseUtils.fail(1, "查询宿舍信息失败！");
+                    return ResponseUtils.fail(1, "无宿舍信息！");
                 }
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
@@ -330,7 +330,7 @@ public class WxController {
                 if (deal != null && deal.size() > 0) {
                     return ResponseUtils.ok("成功", deal);
                 } else {
-                    return ResponseUtils.fail(1, "查询该一卡通信息失败！");
+                    return ResponseUtils.fail(1, "无一卡通信息！");
                 }
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
@@ -342,7 +342,7 @@ public class WxController {
                 if (deal != null && deal.size() > 0) {
                     return ResponseUtils.ok("成功", deal);
                 } else {
-                    return ResponseUtils.fail(1, "查询该一卡通信息失败！");
+                    return ResponseUtils.fail(1, "无一卡通信息！");
                 }
             } else {
                 return ResponseUtils.fail(1, "查询用户信息失败！");
