@@ -99,7 +99,7 @@ public class WxServiceImpl implements WxService {
     @Override
     public List<Student> getAllStudent() {
 
-        List<Student> students = studentRepository.findAll();
+        List<Student> students = studentRepository.findAllByFlag("0");
         return students;
     }
 

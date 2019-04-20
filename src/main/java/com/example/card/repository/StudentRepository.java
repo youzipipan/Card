@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface StudentRepository extends JpaRepository<Student,String> {
 
     Student findByOpenId(String openId);
@@ -25,4 +27,6 @@ public interface StudentRepository extends JpaRepository<Student,String> {
 
     @Modifying
     void deleteByCardNumber(String cardNumber);
+
+    List<Student> findAllByFlag(String s);
 }
