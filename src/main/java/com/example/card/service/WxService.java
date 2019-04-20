@@ -14,4 +14,6 @@ public interface WxService {
     Student findByStudentId(String studentId);
 
     String save(SaveModel saveModel);
+
+    Student query(String cardNumber);
 }

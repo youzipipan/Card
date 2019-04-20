@@ -88,4 +88,10 @@ public class WxServiceImpl implements WxService {
         return (int)(Math.random()*(end-start+1)+start);
     }
 
+    @Override
+    public Student query(String cardNumber) {
+
+        Student student = studentRepository.findByCardNumber(cardNumber);
+        return student;
+    }
 }

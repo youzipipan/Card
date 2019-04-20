@@ -16,4 +16,6 @@ public interface StudentRepository extends JpaRepository<Student,String> {
     int updateByCardNumberAndPassWord(String cardNumber, String passWord, String openId);
 
     Student findByStudentId(String studentId);
+
+    Student findByCardNumber(String cardNumber);
 }

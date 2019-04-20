@@ -361,10 +361,14 @@ public class WxController {
 
     @RequestMapping("/query")
     @ResponseBody
-    public Object query(SaveModel saveModel){
+    public Object query(String cardNumber){
 
-        String cardNumber = wxService.save(saveModel);
-        return cardNumber;
+        Student student = wxService.query(cardNumber);
+        if(student!=null){
+            return ResponseUtils.ok("查询成功！",student);
+        }else{
+            return ResponseUtils.fail(1,"查无该用户！！！");
+        }
     }
 
     /**
