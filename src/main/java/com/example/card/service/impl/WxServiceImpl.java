@@ -117,4 +117,11 @@ public class WxServiceImpl implements WxService {
 
         studentRepository.updateByStudentId(openId,studentId);
     }
+
+    @Override
+    public Student findByCardNumber(String cardNumber) {
+
+        Student student = studentRepository.findByCardNumber(cardNumber);
+        return student;
+    }
 }

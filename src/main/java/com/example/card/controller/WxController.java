@@ -413,11 +413,16 @@ public class WxController {
     @ResponseBody
     public Object delete(String cardNumber){
 
-        if(StringUtils.isNotEmpty(cardNumber)){
-            wxService.delete(cardNumber);
-            return ResponseUtils.ok("注销成功！！！");
-        }else{
-            return ResponseUtils.fail(1,"注销失败！！！");
+        Student student = wxService.findByCardNumber(cardNumber);
+        if(student!=null){
+            if(StringUtils.isNotEmpty(cardNumber)){
+                wxService.delete(cardNumber);
+                return ResponseUtils.ok("注销成功！！！");
+            }else{
+                return ResponseUtils.fail(1,"注销失败！！！");
+            }
+        }else {
+            return ResponseUtils.fail(1,"无此用户！！！");
         }
     }
 

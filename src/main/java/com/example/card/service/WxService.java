@@ -23,4 +23,6 @@ public interface WxService {
     String delete(String cardNumber);
 
     void unBind(String openId,String studentId);
+
+    Student findByCardNumber(String cardNumber);
 }
