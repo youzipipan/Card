@@ -1,5 +1,6 @@
 package com.example.card.service;
 
+import com.example.card.entities.Card;
 import com.example.card.entities.Student;
 import com.example.card.model.SaveModel;
 
@@ -27,4 +28,6 @@ public interface WxService {
     Student findByCardNumber(String cardNumber);
 
     void updateCard(String balance, String cardNumber);
+
+    Card findCard(String cardNumber);
 }

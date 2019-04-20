@@ -14,4 +14,6 @@ public interface CardRepository extends JpaRepository<Card,String> {
     @Modifying
     @Query("update Card c set c.balance=?1 where c.cardNumber=?2")
     void updateCard(String balance, String cardNumber);
+
+    Card findByCardNumber(String cardNumber);
 }

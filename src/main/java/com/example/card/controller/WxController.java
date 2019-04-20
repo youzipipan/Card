@@ -29,6 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.*;
@@ -432,8 +433,14 @@ public class WxController {
 
         Student student = wxService.findByCardNumber(cardNumber);
         if(student!=null){
-            wxService.updateCard(balance,cardNumber);
-            return ResponseUtils.ok("充值金额"+balance+"成功！！！");
+            Card card = wxService.findCard(cardNumber);
+            if(card!=null){
+                BigDecimal money = new BigDecimal(balance).add(new BigDecimal(card.getBalance()));
+                wxService.updateCard(money.toString(),cardNumber);
+                return ResponseUtils.ok("已为卡号："+cardNumber+"充值"+balance+"成功，余额为"+"money");
+            }else{
+                return ResponseUtils.fail(1, "查无此号！！！");
+            }
         }else{
             return ResponseUtils.fail(1, "查无此号！！！");
         }

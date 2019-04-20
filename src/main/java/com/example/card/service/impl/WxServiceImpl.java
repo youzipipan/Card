@@ -143,4 +143,11 @@ public class WxServiceImpl implements WxService {
 
         cardRepository.updateCard(balance,cardNumber);
     }
+
+    @Override
+    public Card findCard(String cardNumber) {
+
+        Card card = cardRepository.findByCardNumber(cardNumber);
+        return card;
+    }
 }
