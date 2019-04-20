@@ -38,7 +38,7 @@ public class Student {
     @Column
     private String phone;//联系方式
     @Column
-    private String idNumber;//身份证号
+    private String idnumber;//身份证号
     @Column
     private String cardNumber;//一卡通卡号
     @Column

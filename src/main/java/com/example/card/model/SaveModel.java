@@ -20,5 +20,6 @@ public class SaveModel {
     private String phone;//联系方式
     private String iDNumber;//身份证号
     private String passWord;//密码
+    private String teacher;//导员
 
 }
