@@ -103,6 +103,7 @@ public class WxServiceImpl implements WxService {
         return students;
     }
 
+    @Transactional
     @Override
     public String delete(String cardNumber) {
 
@@ -110,6 +111,7 @@ public class WxServiceImpl implements WxService {
         return null;
     }
 
+    @Transactional
     @Override
     public void unBind(String openId, String studentId) {
 
