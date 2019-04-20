@@ -437,7 +437,7 @@ public class WxController {
             if(card!=null){
                 BigDecimal money = new BigDecimal(balance).add(new BigDecimal(card.getBalance()));
                 wxService.updateCard(money.toString(),cardNumber);
-                return ResponseUtils.ok("已为卡号："+cardNumber+"充值"+balance+"成功，余额为"+"money");
+                return ResponseUtils.ok("已为卡号："+cardNumber+"充值"+balance+"成功，余额为"+money);
             }else{
                 return ResponseUtils.fail(1, "查无此号！！！");
             }
