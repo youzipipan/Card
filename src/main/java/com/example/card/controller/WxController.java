@@ -426,6 +426,21 @@ public class WxController {
         }
     }
 
+    @RequestMapping("/recharge")
+    @ResponseBody
+    public Object recharge(String cardNumber,String balance) {
+
+        Student student = wxService.findByCardNumber(cardNumber);
+        if(student!=null){
+            wxService.updateCard(balance,cardNumber);
+            return ResponseUtils.ok("充值金额"+balance+"成功！！！");
+        }else{
+            return ResponseUtils.fail(1, "查无此号！！！");
+        }
+    }
+
+
+
     /**
      * 向指定 URL 发送POST方法的请求
      *

@@ -1,7 +1,9 @@
 package com.example.card.service.impl;
 
+import com.example.card.entities.Card;
 import com.example.card.entities.Student;
 import com.example.card.model.SaveModel;
+import com.example.card.repository.CardRepository;
 import com.example.card.repository.StudentRepository;
 import com.example.card.service.WxService;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class WxServiceImpl implements WxService {
 
     @Resource
     private StudentRepository studentRepository;
+    @Resource
+    private CardRepository cardRepository;
 
     @Transactional
     @Override
@@ -74,6 +78,13 @@ public class WxServiceImpl implements WxService {
         String cardNumber = getTel();
         student.setCardNumber(cardNumber);
         studentRepository.save(student);
+        Card card = new Card();
+        card.setUUID(UUID.randomUUID().toString().replace("-",""));
+        card.setStudentId(student.getStudentId());
+        card.setCardNumber(student.getCardNumber());
+        card.setBalance("0");
+        card.setIntegral("0");
+        cardRepository.save(card);
         return cardNumber;
     }
 
@@ -108,6 +119,7 @@ public class WxServiceImpl implements WxService {
     public String delete(String cardNumber) {
 
         studentRepository.deleteByCardNumber(cardNumber);
+        cardRepository.deleteByCardNumber(cardNumber);
         return null;
     }
 
@@ -123,5 +135,12 @@ public class WxServiceImpl implements WxService {
 
         Student student = studentRepository.findByCardNumber(cardNumber);
         return student;
+    }
+
+    @Transactional
+    @Override
+    public void updateCard(String balance, String cardNumber) {
+
+        cardRepository.updateCard(balance,cardNumber);
     }
 }

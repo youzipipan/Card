@@ -25,4 +25,6 @@ public interface WxService {
     void unBind(String openId,String studentId);
 
     Student findByCardNumber(String cardNumber);
+
+    void updateCard(String balance, String cardNumber);
 }
