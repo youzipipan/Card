@@ -102,4 +102,17 @@ public class WxServiceImpl implements WxService {
         List<Student> students = studentRepository.findAll();
         return students;
     }
+
+    @Override
+    public String delete(String studentId) {
+
+        studentRepository.deleteByStudentId(studentId);
+        return null;
+    }
+
+    @Override
+    public void unBind(String openId, String studentId) {
+
+        studentRepository.updateByStudentId(openId,studentId);
+    }
 }

@@ -388,6 +388,35 @@ public class WxController {
         }
     }
 
+    @RequestMapping("/unBind")
+    @ResponseBody
+    public Object unBind(String studentId){
+
+        Student student = wxService.findByOpenId(openId);
+        if(student.getStudentId().equals(studentId)){
+            if(StringUtils.isNotEmpty(studentId)){
+                wxService.unBind("",studentId);
+                return ResponseUtils.ok("微信解绑成功！！！");
+            }else {
+                return ResponseUtils.fail(1,"微信解绑失败！！！");
+            }
+        }else{
+            return ResponseUtils.fail(1,"微信解绑只允许本人操作！！！");
+        }
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public Object delete(String studentId){
+
+        if(StringUtils.isNotEmpty(studentId)){
+            wxService.delete(studentId);
+            return ResponseUtils.ok("注销成功！！！");
+        }else{
+            return ResponseUtils.fail(1,"注销失败！！！");
+        }
+    }
+
     /**
      * 向指定 URL 发送POST方法的请求
      *

@@ -1,6 +1,5 @@
 package com.example.card.service;
 
-import com.example.card.entities.Card;
 import com.example.card.entities.Student;
 import com.example.card.model.SaveModel;
 
@@ -20,4 +19,8 @@ public interface WxService {
     Student query(String cardNumber);
 
     List<Student> getAllStudent();
+
+    String delete(String studentId);
+
+    void unBind(String openId,String studentId);
 }
