@@ -116,13 +116,13 @@ public class WxController {
 
     @RequestMapping("/getUserInfo")
     @ResponseBody
-    public Object getUserInfo(HttpSession httpSession,String studentId) {
+    public Object getUserInfo(HttpSession httpSession, String studentId) {
 
 //        this.openId = (String) httpSession.getAttribute("openId");
         Student student = new Student();
-        if(StringUtils.isNotEmpty(studentId)){
+        if (StringUtils.isNotEmpty(studentId)) {
             student = wxService.findByStudentId(studentId);
-        }else{
+        } else {
             student = wxService.findByOpenId(openId);
         }
         if (student != null) {
@@ -357,72 +357,72 @@ public class WxController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public Object save(SaveModel saveModel){
+    public Object save(SaveModel saveModel) {
 
         String cardNumber = wxService.save(saveModel);
-        String msg = "一卡通账号为："+cardNumber+"--------密码为："+saveModel.getPassWord();
+        String msg = "一卡通账号为：" + cardNumber + "--------密码为：" + saveModel.getPassWord();
         return ResponseUtils.ok(msg);
     }
 
     @RequestMapping("/query")
     @ResponseBody
-    public Object query(String cardNumber){
+    public Object query(String cardNumber) {
 
         Student student = wxService.query(cardNumber);
-        if(student!=null){
-            return ResponseUtils.ok("查询成功！",student);
-        }else{
-            return ResponseUtils.fail(1,"查无该用户！！！");
+        if (student != null) {
+            return ResponseUtils.ok("查询成功！", student);
+        } else {
+            return ResponseUtils.fail(1, "查无该用户！！！");
         }
     }
 
     @RequestMapping("/getAllStudent")
     @ResponseBody
-    public Object getAllStudent(){
+    public Object getAllStudent() {
 
         List<Student> students = wxService.getAllStudent();
-        if(students!=null&&students.size()>0){
-            return ResponseUtils.ok("查询成功！！！",students);
-        }else{
-            return ResponseUtils.fail(1,"查询失败！！！");
+        if (students != null && students.size() > 0) {
+            return ResponseUtils.ok("查询成功！！！", students);
+        } else {
+            return ResponseUtils.fail(1, "查询失败！！！");
         }
     }
 
     @RequestMapping("/unBind")
     @ResponseBody
-    public Object unBind(String studentId){
+    public Object unBind(String studentId) {
 
-        if(StringUtils.isNotEmpty(openId)){
+        if (StringUtils.isNotEmpty(openId)) {
             Student student = wxService.findByOpenId(openId);
-            if(student!=null&&student.getStudentId().equals(studentId)){
-                if(StringUtils.isNotEmpty(studentId)){
-                    wxService.unBind("",studentId);
+            if (student != null && student.getStudentId().equals(studentId)) {
+                if (StringUtils.isNotEmpty(studentId)) {
+                    wxService.unBind(null, studentId);
                     return ResponseUtils.ok("微信解绑成功！！！");
-                }else {
-                    return ResponseUtils.fail(1,"微信解绑失败！！！");
+                } else {
+                    return ResponseUtils.fail(1, "微信解绑失败！！！");
                 }
-            }else{
-                return ResponseUtils.fail(1,"微信解绑只允许本人操作！！！");
+            } else {
+                return ResponseUtils.fail(1, "微信解绑只允许本人操作！！！");
             }
-        }else{
-            return ResponseUtils.fail(1,"微信解绑只允许本人操作！！！");
+        } else {
+            return ResponseUtils.fail(1, "微信解绑只允许本人操作！！！");
         }
     }
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Object delete(String cardNumber){
+    public Object delete(String cardNumber) {
 
-        Student student = wxService.findByCardNumber(cardNumber);
-        if(student!=null){
-            if(StringUtils.isNotEmpty(cardNumber)){
+        if (StringUtils.isNotEmpty(cardNumber)) {
+            Student student = wxService.findByCardNumber(cardNumber);
+            if (student != null) {
                 wxService.delete(cardNumber);
                 return ResponseUtils.ok("注销成功！！！");
-            }else{
-                return ResponseUtils.fail(1,"注销失败！！！");
+            } else {
+                return ResponseUtils.fail(1, "无此用户！！！");
             }
-        }else {
-            return ResponseUtils.fail(1,"无此用户！！！");
+        } else {
+            return ResponseUtils.fail(1, "注销失败！！！");
         }
     }
 
