@@ -19,10 +19,9 @@ public interface StudentRepository extends JpaRepository<Student,String> {
 
     Student findByCardNumber(String cardNumber);
 
-    void deleteByStudentId(String studentId);
-
     @Modifying
     @Query("update Student s set s.openId=?1 where s.studentId=?2")
     void updateByStudentId(String openId, String studentId);
 
+    void deleteByCardNumber(String cardNumber);
 }

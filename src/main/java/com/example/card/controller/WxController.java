@@ -407,10 +407,10 @@ public class WxController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Object delete(String studentId){
+    public Object delete(String cardNumber){
 
-        if(StringUtils.isNotEmpty(studentId)){
-            wxService.delete(studentId);
+        if(StringUtils.isNotEmpty(cardNumber)){
+            wxService.delete(cardNumber);
             return ResponseUtils.ok("注销成功！！！");
         }else{
             return ResponseUtils.fail(1,"注销失败！！！");

@@ -104,9 +104,9 @@ public class WxServiceImpl implements WxService {
     }
 
     @Override
-    public String delete(String studentId) {
+    public String delete(String cardNumber) {
 
-        studentRepository.deleteByStudentId(studentId);
+        studentRepository.deleteByCardNumber(cardNumber);
         return null;
     }
 

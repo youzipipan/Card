@@ -20,7 +20,7 @@ public interface WxService {
 
     List<Student> getAllStudent();
 
-    String delete(String studentId);
+    String delete(String cardNumber);
 
     void unBind(String openId,String studentId);
 }
