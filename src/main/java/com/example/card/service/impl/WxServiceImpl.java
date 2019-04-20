@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.UUID;
 
 @Service("wxService")
@@ -93,5 +94,12 @@ public class WxServiceImpl implements WxService {
 
         Student student = studentRepository.findByCardNumber(cardNumber);
         return student;
+    }
+
+    @Override
+    public List<Student> getAllStudent() {
+
+        List<Student> students = studentRepository.findAll();
+        return students;
     }
 }

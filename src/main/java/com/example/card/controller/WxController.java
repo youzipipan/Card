@@ -116,10 +116,15 @@ public class WxController {
 
     @RequestMapping("/getUserInfo")
     @ResponseBody
-    public Object getUserInfo(HttpSession httpSession) {
+    public Object getUserInfo(HttpSession httpSession,String studentId) {
 
 //        this.openId = (String) httpSession.getAttribute("openId");
-        Student student = wxService.findByOpenId(openId);
+        Student student = new Student();
+        if(StringUtils.isNotEmpty(studentId)){
+            student = wxService.findByStudentId(openId);
+        }else{
+            student = wxService.findByOpenId(openId);
+        }
         if (student != null) {
             return ResponseUtils.ok("成功", student);
         } else {
@@ -368,6 +373,18 @@ public class WxController {
             return ResponseUtils.ok("查询成功！",student);
         }else{
             return ResponseUtils.fail(1,"查无该用户！！！");
+        }
+    }
+
+    @RequestMapping("/getAllStudent")
+    @ResponseBody
+    public Object getAllStudent(){
+
+        List<Student> students = wxService.getAllStudent();
+        if(students!=null&&students.size()>0){
+            return ResponseUtils.ok("查询成功！！！",students);
+        }else{
+            return ResponseUtils.fail(1,"查询失败！！！");
         }
     }
 
