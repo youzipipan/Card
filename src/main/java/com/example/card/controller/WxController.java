@@ -392,13 +392,17 @@ public class WxController {
     @ResponseBody
     public Object unBind(String studentId){
 
-        Student student = wxService.findByOpenId(openId);
-        if(student.getStudentId().equals(studentId)){
-            if(StringUtils.isNotEmpty(studentId)){
-                wxService.unBind("",studentId);
-                return ResponseUtils.ok("微信解绑成功！！！");
-            }else {
-                return ResponseUtils.fail(1,"微信解绑失败！！！");
+        if(StringUtils.isNotEmpty(openId)){
+            Student student = wxService.findByOpenId(openId);
+            if(student!=null&&student.getStudentId().equals(studentId)){
+                if(StringUtils.isNotEmpty(studentId)){
+                    wxService.unBind("",studentId);
+                    return ResponseUtils.ok("微信解绑成功！！！");
+                }else {
+                    return ResponseUtils.fail(1,"微信解绑失败！！！");
+                }
+            }else{
+                return ResponseUtils.fail(1,"微信解绑只允许本人操作！！！");
             }
         }else{
             return ResponseUtils.fail(1,"微信解绑只允许本人操作！！！");
