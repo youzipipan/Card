@@ -66,7 +66,7 @@ public class WxServiceImpl implements WxService {
         student.setStudentClass(saveModel.getStudentClass());
         student.setStudentNumber(saveModel.getStudentNumber());
         student.setPhone(saveModel.getPhone());
-        student.setIDNumber(saveModel.getIDNumber());
+        student.setIdNumber(saveModel.getIDNumber());
         student.setPassWord(saveModel.getPassWord());
         student.setSex(saveModel.getSex());
         String cardNumber = getTel();
