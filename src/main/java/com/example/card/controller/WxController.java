@@ -121,7 +121,7 @@ public class WxController {
 //        this.openId = (String) httpSession.getAttribute("openId");
         Student student = new Student();
         if(StringUtils.isNotEmpty(studentId)){
-            student = wxService.findByStudentId(openId);
+            student = wxService.findByStudentId(studentId);
         }else{
             student = wxService.findByOpenId(openId);
         }
