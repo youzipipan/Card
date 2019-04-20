@@ -82,11 +82,17 @@ public class WxController {
         String sessionId = session.getId();
         session.setAttribute("openId", openId);
         if (student != null) {
-            log.info(ResponseUtils.ok("成功", sessionId));
-            return ResponseUtils.ok("成功", sessionId);
+            JSONObject json = new JSONObject();
+            json.put("student",student);
+            json.put("sessionId",sessionId);
+            log.info(ResponseUtils.ok("成功", json));
+            return ResponseUtils.ok("成功", json);
         } else {
-            log.info(ResponseUtils.fail(1, "请绑定一卡通信息！！！", sessionId));
-            return ResponseUtils.fail(1, "请绑定一卡通信息！！！", sessionId);
+            JSONObject json = new JSONObject();
+            json.put("student","");
+            json.put("sessionId",sessionId);
+            log.info(ResponseUtils.fail(1, "请绑定一卡通信息！！！", json));
+            return ResponseUtils.fail(1, "请绑定一卡通信息！！！", json);
         }
     }
 
