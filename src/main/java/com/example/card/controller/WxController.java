@@ -355,6 +355,15 @@ public class WxController {
     public Object save(SaveModel saveModel){
 
         String cardNumber = wxService.save(saveModel);
+        String msg = "一卡通账号为："+cardNumber+"--------密码为："+saveModel.getPassWord();
+        return ResponseUtils.ok(msg);
+    }
+
+    @RequestMapping("/query")
+    @ResponseBody
+    public Object query(SaveModel saveModel){
+
+        String cardNumber = wxService.save(saveModel);
         return cardNumber;
     }
 
